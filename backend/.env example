@@ -1,0 +1,5 @@
+USERNAME_database=your_username
+PASSWORD_database=your_password
+HOST_database=your_host
+PORT_database=your_port
+DATABASE_database=your_database
