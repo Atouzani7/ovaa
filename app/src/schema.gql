@@ -1,0 +1,102 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Workspace {
+  """Unique identifier for the workspace"""
+  id: ID!
+
+  """Name of the workspace"""
+  name: String!
+
+  """Description of the workspace"""
+  description: String!
+
+  """Creation date of the workspace"""
+  createdAt: String!
+
+  """Img of the workspace"""
+  logo: String!
+
+  """Project id of the workspace"""
+  project: [Project!]!
+  user: User
+
+  """file in the workspace"""
+  file: String!
+
+  """Comment's user to which the workspace belongs"""
+  comment: String!
+}
+
+type Project {
+  """Unique identifier for the project"""
+  id: ID!
+
+  """Name of the project"""
+  name: String!
+
+  """Description of the project"""
+  description: String!
+
+  """Creation date of the project"""
+  createdAt: String!
+
+  """Staus state progress of the project"""
+  status: String!
+
+  """Name of the project"""
+  userId: String!
+
+  """Workspace of the project"""
+  workspace: Workspace!
+
+  """Step of the project"""
+  step: String!
+}
+
+type User {
+  """Unique identifier for the user"""
+  id: ID!
+
+  """Username of the user"""
+  username: String!
+
+  """name of the user"""
+  name: String!
+
+  """Email of the user"""
+  email: String!
+
+  """Password of the user"""
+  password: String!
+
+  """Role of the user"""
+  role: String!
+
+  """Avatar of the user"""
+  avatar: String!
+
+  """Date of creation of the user"""
+  createdAt: String!
+
+  """Status of the user"""
+  status: String!
+
+  """Date of last update of the user"""
+  updatedAt: String!
+  Workspace: Workspace
+
+  """Project ID of the user"""
+  project: String!
+
+  """Comment posted by the user"""
+  comment: String!
+
+  """User ID of the user"""
+  file: String!
+}
+
+type Query {
+  user(id: Int!): User!
+}
