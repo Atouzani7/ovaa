@@ -10,8 +10,6 @@ import { FileModule } from './file/file.module';
 import { CommentModule } from './comment/comment.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { UsersResolver } from './users/users.resolver';
-import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
@@ -23,9 +21,9 @@ import { UsersService } from './users/users.service';
       password: process.env.PASSWORD_database,
       database: 'ovaa_db',
       autoLoadEntities: true,
-      // logging: true,
+      logging: true,
       entities: ['dist/**/*.entity.js'],
-      // synchronize: true,
+      synchronize: true,
     }),
     // GraphQL
     GraphQLModule.forRoot<ApolloDriverConfig>({
