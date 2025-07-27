@@ -42,6 +42,6 @@ import { UsersService } from './users/users.service';
     CommentModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UsersResolver, UsersService],
+  providers: [AppService],
 })
 export class AppModule {}

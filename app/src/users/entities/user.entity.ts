@@ -24,11 +24,11 @@ export class User {
 
   @Field(() => String, { description: 'Username of the user' })
   @Column({ unique: true })
-  username: string;
+  lastname: string;
 
   @Field(() => String, { description: 'name of the user' })
   @Column({ unique: true })
-  name: string;
+  name?: string;
 
   @Field(() => String, { description: 'Email of the user' })
   @Column({ unique: true })
@@ -39,11 +39,19 @@ export class User {
   password!: string;
 
   @Field(() => String, { description: 'Role of the user' })
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: ['USER', 'ADMIN', 'CUSTOMER', 'GUEST'],
+    default: 'USER',
+  })
   role!: Role;
 
   @Field(() => String, { description: 'Avatar of the user' })
-  @Column({ nullable: true })
+  @Column({
+    nullable: true,
+    default:
+      'https://raw.githubusercontent.com/Atouzani7/Asma-web-developer/e2966d158e6676b54f33ab6343776bf606655ed1/frontend/public/Ovaa.png',
+  })
   avatar?: string;
 
   @Field(() => String, { description: 'Date of creation of the user' })
