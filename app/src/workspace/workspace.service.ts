@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { Workspace } from './entities/workspace.entity';
 
 @Injectable()
 export class WorkspaceService {
-  create(createWorkspaceDto: CreateWorkspaceDto) {
-    return 'This action adds a new workspace';
+  constructor(
+    @InjectRepository(Workspace)
+    private readonly workspaceRepository: Repository<Workspace>,
+  ) {}
+
+  async create(createWorkspaceDto: CreateWorkspaceDto): Promise<Workspace> {
+    const workspace = this.workspaceRepository.create(createWorkspaceDto);
+    return await this.workspaceRepository.save(workspace);
   }
 
   findAll() {

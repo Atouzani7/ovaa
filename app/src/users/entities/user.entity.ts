@@ -6,6 +6,7 @@ import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -67,8 +68,12 @@ export class User {
   updatedAt?: string;
 
   @Field(() => Workspace, { nullable: true })
-  @OneToOne(() => Workspace, (workspace) => workspace.user)
-  Workspace?: Workspace;
+  @OneToOne(() => Workspace, (workspace) => workspace.user, {
+    cascade: true,
+    eager: true, // optionnel
+  })
+  @JoinColumn()
+  workspace?: Workspace;
 
   @Field(() => String, { description: 'Project ID of the user' })
   @ManyToMany(() => Project, (project) => project.userId, { nullable: true })
