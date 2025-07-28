@@ -18,7 +18,9 @@ export class WorkspaceService {
   }
 
   async findAll(): Promise<Workspace[]> {
-    const workspaces = await this.workspaceRepository.find();
+    const workspaces = await this.workspaceRepository.find({
+      relations: ['user'],
+    });
     if (!workspaces || workspaces.length === 0) {
       throw new NotFoundException('No workspaces found');
     }

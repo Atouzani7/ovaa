@@ -29,6 +29,21 @@ export class WorkspaceResolver {
     return this.workspaceService.findAll();
   }
 
+  @Query(() => [Workspace], { name: 'workspacesByUser' })
+  async findByUser(@Args('userEMail', { type: () => ID }) userId: string) {
+    const workspaces = await this.workspaceService.findAll();
+    const userWorkspaces = workspaces.filter(
+      // (workspace) => String(workspace.user.id) === userId,
+      (workspace) =>
+        workspace.user?.id && String(workspace.user.name) === userId,
+    );
+    console.log('All workspaces:', workspaces);
+    if (userWorkspaces.length === 0) {
+      throw new NotFoundException(`No workspaces found for user ID ${userId}`);
+    }
+    return userWorkspaces;
+  }
+
   //? MUTATIONS _____________________________________________________________________________________________________________________________________________
 
   @Mutation(() => Workspace)
