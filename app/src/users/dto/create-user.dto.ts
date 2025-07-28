@@ -4,10 +4,10 @@ import { Role } from '../entities/user.entity';
 @InputType()
 export class CreateUserDto {
   @Field()
-  username: string;
+  name: string;
 
   @Field()
-  name: string;
+  lastname: string;
 
   @Field()
   email: string;

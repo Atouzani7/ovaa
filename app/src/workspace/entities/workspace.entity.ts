@@ -5,7 +5,9 @@ import { Project } from 'src/projects/entities/project.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -27,7 +29,7 @@ export class Workspace {
   description?: string;
 
   @Field(() => String, { description: 'Creation date of the workspace' })
-  @Column({ nullable: false, type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @Field(() => String, { description: 'Img of the workspace' })
@@ -36,10 +38,12 @@ export class Workspace {
 
   @Field(() => [Project], { description: 'Project id of the workspace' })
   @OneToMany(() => Project, (project) => project.workspace, { nullable: true })
+  @JoinColumn()
   project?: Project[];
 
   @Field(() => User, { nullable: true })
-  @OneToOne(() => User, (user) => user.Workspace)
+  @OneToOne(() => User, (user) => user.workspace)
+  @JoinColumn()
   user: User;
 
   @Field(() => String, { description: 'file in the workspace' })
