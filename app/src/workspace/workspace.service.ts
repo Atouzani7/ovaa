@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
@@ -17,12 +17,16 @@ export class WorkspaceService {
     return await this.workspaceRepository.save(workspace);
   }
 
-  findAll() {
-    return `This action returns all workspace`;
+  async findAll(): Promise<Workspace[]> {
+    const workspaces = await this.workspaceRepository.find();
+    if (!workspaces || workspaces.length === 0) {
+      throw new NotFoundException('No workspaces found');
+    }
+    return workspaces;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} workspace`;
+  async findOne(id: string): Promise<Workspace | null> {
+    return this.workspaceRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateWorkspaceDto: UpdateWorkspaceDto) {
