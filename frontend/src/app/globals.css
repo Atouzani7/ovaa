@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+  --font-geist-sans: "Gill Sans", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+
+  --primary: #1E40AF;
+  --secondary: #FCD34D;
+  --error: #DC2626;
+
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F8FAFC;
+    --foreground: #1E293B;
+        --primary: #3B82F6;
+    --secondary: #FACC15;
+    --error: #F87171;
+
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, "Gill Sans" , Arial, Helvetica, sans-serif);
+}
