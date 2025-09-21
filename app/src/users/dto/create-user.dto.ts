@@ -1,6 +1,14 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { Role } from '../entities/user.entity';
+// import { Role } from '../entities/user.entity';
 
+import { registerEnumType } from '@nestjs/graphql';
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  CUSTOMER = 'CUSTOMER',
+  GUEST = 'GUEST',
+}
 @InputType()
 export class CreateUserDto {
   @Field()
@@ -18,9 +26,10 @@ export class CreateUserDto {
   @Field({ nullable: true })
   firstName?: string;
 
-  @Field({ nullable: true })
-  lastName?: string;
-
-  @Field({ nullable: true })
-  role?: Role;
+  // @Field({ nullable: true })
+  // role?: Role;
 }
+
+registerEnumType(Role, {
+  name: 'Role',
+});

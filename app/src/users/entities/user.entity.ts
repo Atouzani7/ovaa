@@ -8,8 +8,10 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Column } from 'typeorm';
 
@@ -21,21 +23,21 @@ export type Status = 'ACTIVE' | 'INACTIVE' | 'BANNED';
 export class User {
   @Field(() => ID, { description: 'Unique identifier for the user' })
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Field(() => String, { description: 'Username of the user' })
-  @Column({ unique: true })
-  lastname: string;
+  @Column()
+  lastname?: string;
 
-  @Field(() => String, { description: 'name of the user' })
-  @Column({ unique: true })
+  @Field(() => String)
+  @Column()
   name?: string;
 
-  @Field(() => String, { description: 'Email of the user' })
+  @Field(() => String, { description: 'Email of the user', nullable: true })
   @Column({ unique: true })
   email!: string;
 
-  @Field(() => String, { description: 'Password of the user' })
+  @Field(() => String, { description: 'Password of the user', nullable: true })
   @Column()
   password!: string;
 
@@ -60,30 +62,43 @@ export class User {
   createdAt: Date;
 
   @Field(() => String, { description: 'Status of the user' })
-  @Column({ nullable: true })
+  @Column({ nullable: false, default: 'ACTIVE' })
   status?: Status;
 
   @Field(() => String, { description: 'Date of last update of the user' })
-  @Column({ nullable: true })
+  @Column({
+    nullable: false,
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  @UpdateDateColumn({ nullable: false, type: 'timestamp' })
   updatedAt?: string;
 
-  @Field(() => Workspace, { nullable: true })
-  @OneToOne(() => Workspace, (workspace) => workspace.user, {
-    cascade: true,
-    eager: true, // optionnel
+  // @Field(() => Workspace, { nullable: true })
+  // @ManyToMany(() => Workspace, (workspace) => workspace.user, {
+  //   cascade: true,
+  //   eager: true, // optionnel
+  // })
+  // @JoinColumn()
+  // workspace?: Workspace;
+  @ManyToOne(() => Workspace, (workspace) => workspace.users, {
+    nullable: true,
   })
-  @JoinColumn()
-  workspace?: Workspace;
+  workspace: Workspace;
 
-  @Field(() => String, { description: 'Project ID of the user' })
+  @Field(() => [Project], { description: 'Project ID of the user' })
   @ManyToMany(() => Project, (project) => project.userId, { nullable: true })
+  @JoinColumn()
   project?: Project[];
 
-  @Field(() => String, { description: 'Comment posted by the user' })
-  @OneToOne(() => Comment, (comment) => comment.userId, { nullable: true })
+  @Field(() => String, {
+    description: 'Comment posted by the user',
+    nullable: true,
+  })
+  @OneToOne(() => Comment, (comment) => comment.userId)
   comment?: Comment[];
 
-  @Field(() => String, { description: 'User ID of the user' })
+  @Field(() => String, { description: 'User ID of the user', nullable: true })
   @OneToOne(() => File, (file) => file.userId, { nullable: true })
   file?: File[];
 }
